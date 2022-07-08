@@ -1,7 +1,3 @@
-// After getting it to work, go back and try a new method.
-// New method renders all dogs on page load, with display set to hidden.
-// When dog is selected, unhide that dog's info card.
-
 document.addEventListener('DOMContentLoaded', () => {
   // Constant declarations
   const baseUrl = 'http://localhost:3000/pups';
@@ -56,9 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const button = document.createElement('button');
     const span = document.getElementById(`${dogObj.id}`)
 
-    console.log('span before: ', span)
-    console.log(dogObj)
-
     img.src = dogObj.image;
     img.id = 'dog-img';
     name.textContent = dogObj.name;
@@ -68,9 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
       button.textContent = dogObj.isGoodDog ? 'Bad Dog!' : 'Good Dog!';
       span.className = dogObj.isGoodDog ? 'bad-dog' : 'good-dog';
       dogObj.isGoodDog = !dogObj.isGoodDog;
-
-      console.log('span after: ', span)
-      console.log(dogObj);
 
       updateDog(dogObj);
     })
