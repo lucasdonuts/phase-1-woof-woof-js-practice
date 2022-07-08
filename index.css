@@ -26,10 +26,17 @@
   height: 80%;
   width: 8vw;
   display: flex;
+  text-align: center;
   justify-content: center;
   align-items: center;
   border-radius: 2em;
   border: 1px solid blue;
+  background: darkblue;
+  color: white;
+}
+
+#dog-bar span:hover {
+  transform: scale(1.1);
 }
 
 #dog-summary-container {
