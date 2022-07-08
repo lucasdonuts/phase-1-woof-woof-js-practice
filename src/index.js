@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const baseUrl = 'http://localhost:3000/pups';
   const dogBar = document.querySelector('#dog-bar');
   const dogInfo = document.querySelector('#dog-info');
+  const filterButton = document.querySelector('#good-dog-filter');
+  let filterOn = document.querySelector('#filter-status')
+                    .textContent == 'ON' ? true : false;
 
   //Fetch functions
   function fetchPups() {
@@ -24,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
       body: JSON.stringify(dogObj)
     })
     .then(res => res.json())
-    .then(data => console.log(data))
   }
 
   // Render functions
@@ -33,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const span = document.createElement('span');
 
       span.textContent = pup.name;
+      span.className = pup.isGoodDog ? 'good-dog' : 'bad-dog';
+      span.id = pup.id;
 
       span.addEventListener('click', () => {
         renderDogInfo(pup);
@@ -50,15 +54,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const img = document.createElement('img');
     const name = document.createElement('h2');
     const button = document.createElement('button');
+    const span = document.getElementById(`${dogObj.id}`)
+
+    console.log('span before: ', span)
+    console.log(dogObj)
 
     img.src = dogObj.image;
     img.id = 'dog-img';
     name.textContent = dogObj.name;
-    button.textContent = dogObj.isGoodDog ? 'Good Dog!' : 'Bad Dog!';
+    button.textContent = dogObj.isGoodDog ? 'Bad Dog!' : 'Good Dog!';
 
     button.addEventListener('click', () => {
       button.textContent = dogObj.isGoodDog ? 'Bad Dog!' : 'Good Dog!';
+      span.className = dogObj.isGoodDog ? 'bad-dog' : 'good-dog';
       dogObj.isGoodDog = !dogObj.isGoodDog;
+
+      console.log('span after: ', span)
+      console.log(dogObj);
 
       updateDog(dogObj);
     })
@@ -69,4 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load page content
   fetchPups()
     .then(pups => fillDogBar(pups));
+
+  filterButton.addEventListener('click', (e) => {
+    const badDogs = dogBar.querySelectorAll('.bad-dog');
+    badDogs.forEach(dog => {
+      dog.style.visibility = filterOn ? 'visible' : 'hidden';
+    })
+    filterOn = !filterOn;
+  })
 })
